@@ -8,9 +8,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private CircleCollider2D circle
+    private CircleCollider2D circle;
     private bool grounded;
-    private Animator animator
+    private Animator animator;
 
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpHeight = 5f;
