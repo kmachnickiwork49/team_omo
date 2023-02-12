@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpHeight = 5f;
+
+    [Header("Camera")]
+    Vector3 cameraPos;
+    [SerializeField] Camera mainCamera;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,17 +25,30 @@ public class PlayerController : MonoBehaviour
         circle = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
         grounded = true;
+
+        mainCamera = Camera.main;
+        if (mainCamera)
+        {
+            cameraPos = mainCamera.transform.position;
+        }
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         float inputX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.W)) && grounded){
             Jump();
         }
+
+        if (mainCamera)
+        {
+            mainCamera.transform.position = new Vector3(transform.position.x, cameraPos.y, cameraPos.z);
+        }
     }
+
+    
 
     public void Jump() {
         rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
