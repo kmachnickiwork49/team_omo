@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     [SerializeField] float speed = 5f;
+    [SerializeField] float maxSpeed = 3f;
     [SerializeField] float jumpHeight = 5f;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,9 @@ public class PlayerController : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         //rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-        rb.AddForce(new Vector2(inputX*speed,0));
+        if (-maxSpeed < rb.velocity.x && rb.velocity.x < maxSpeed) {
+            rb.AddForce(new Vector2(inputX*speed,0));
+        }
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.W)) && grounded){
             Jump();
         }
