@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         //rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-        if (-maxSpeed < rb.velocity.x && rb.velocity.x < maxSpeed) {
+        if ((inputX < 0 && -maxSpeed < rb.velocity.x) || (inputX > 0 && rb.velocity.x < maxSpeed)) {
             rb.AddForce(new Vector2(inputX*speed,0));
         }
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.W)) && grounded){
