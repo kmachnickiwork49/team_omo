@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Attractor : MonoBehaviour
 {
-    public LayerMask AttractionLayer;
+    public List<LayerMask> AttractionLayers;
     public float gravity = 10;
     [SerializeField] private float effectionRadius = 10;
     public List<Collider2D> AttractedObjects = new List<Collider2D>();
@@ -33,7 +33,13 @@ public class Attractor : MonoBehaviour
 
     void SetAttractedObjects()
     {
-        AttractedObjects = Physics2D.OverlapCircleAll(circleTransform.position, effectionRadius, AttractionLayer).ToList();  // can be optimized
+        // Can optimize, for now, just check the many layers that can be attracted
+        AttractedObjects.Clear();
+        foreach (LayerMask l in AttractionLayers) {
+            foreach (Collider2D c in Physics2D.OverlapCircleAll(circleTransform.position, effectionRadius, l).ToList()) {
+                AttractedObjects.Add(c);
+            }
+        }
     }
 
     void AttractObjects()
