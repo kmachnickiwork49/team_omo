@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class ArmController : MonoBehaviour
 {
-
     GameObject playerRef;
     GameObject clawRef;
 
-    bool pistonPush;
+public    bool pistonPush;
     Collider2D[] results;
     Vector3 target;
 
@@ -16,7 +15,11 @@ public class ArmController : MonoBehaviour
     [SerializeField] float max_arm_len = 4f;
     float arm_len;
     [SerializeField] float extend_rate = 0.005f;
-    [SerializeField] float recoil_force = 2f;
+    [SerializeField] float recoil_force = 20f;
+
+    bool startLaunch;
+    float launch_arm_len;
+    float launch_angle;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,9 @@ public class ArmController : MonoBehaviour
         arm_len = 0;
         pistonPush = false;
         results = new Collider2D[1];
+        startLaunch = false;
+        launch_arm_len = 0;
+        launch_angle = 0;
     }
 
     void RotateToTarget()
@@ -59,15 +65,38 @@ public class ArmController : MonoBehaviour
             }
         //}
     }
-
     
-    void OnCollisionStay2D(Collision2D collision)
+     void OnCollisionEnter2D(Collision2D collision) //apply force only at initial collision time
     {
-        
-        //Debug.Log(gameObject.transform.rotation.eulerAngles);
-        playerRef.GetComponent<Rigidbody2D>().AddForce((new Vector2(Mathf.Cos(Mathf.PI / -180 * (gameObject.transform.rotation.eulerAngles.z-90)), Mathf.Sin(Mathf.PI / 180 * (gameObject.transform.rotation.eulerAngles.z-90)))).normalized * recoil_force, ForceMode2D.Impulse);
+        //TODO: only apply force if object collided with is not grabbable - so only surfaces/terrain (later, tag all recoilable surfaces as "ground" and check for that)
+
+        //to start a launch, piston must be in the middle of extending (not at max length)
+        if (!startLaunch && pistonPush && (arm_len < max_arm_len))
+        {
+            startLaunch = true;
+
+            //store info at time of collision:
+            launch_arm_len = arm_len;
+            launch_angle = Mathf.PI / 180 * (gameObject.transform.rotation.eulerAngles.z - 90);
+            // Debug.Log(launch_arm_len);
+            pistonPush = !pistonPush; //start retracting arm
+        }
     }
     
+    void Launch()
+    {
+        if (startLaunch)
+        {
+            //apply force, scaled by arm's length at launch time
+                //the closer you are to the wall, the more you are launched
+                //if arm is at min length, apply max force (and vice versa)
+            float launch_multiplier = ((max_arm_len - launch_arm_len)/max_arm_len) * recoil_force;
+            Vector2 launch_direction = new Vector2(Mathf.Cos(launch_angle), Mathf.Sin(launch_angle)).normalized;
+            playerRef.GetComponent<Rigidbody2D>().AddForce(launch_direction * launch_multiplier, ForceMode2D.Impulse);
+
+            startLaunch = false;
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -100,5 +129,7 @@ public class ArmController : MonoBehaviour
 
         // Scale controls size
         gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, arm_len, gameObject.transform.localScale.z);
+
+        Launch();
     }
 }
