@@ -14,6 +14,8 @@ public    bool pistonPush;
     //[SerializeField] float max_rot_speed = 10f;
     [SerializeField] float max_arm_len = 4f;
     float arm_len;
+    [SerializeField] float rot_rate = 50f;
+    [SerializeField] float checkAng = 5f;
     [SerializeField] float extend_rate = 0.005f;
     [SerializeField] float recoil_force = 20f;
 
@@ -47,23 +49,40 @@ public    bool pistonPush;
 
         //if (Physics2D.GetContacts(gameObject.GetComponent<Collider2D>(), results) == 0) {
             Vector2 distanceVector = gameObject.transform.position - target;
-            float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
+            //float target_angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
+            float target_angle = Vector2.SignedAngle(distanceVector, new Vector2(1, 0));
+            float target_angle_alt = Vector2.SignedAngle(distanceVector, new Vector2(0, 1));
+            launch_angle = Mathf.PI / 180 * (gameObject.transform.rotation.eulerAngles.z - 90);
+            Vector2 launch_direction = new Vector2(Mathf.Cos(launch_angle), Mathf.Sin(launch_angle)).normalized;
+
+            Debug.Log("target: " + (-target_angle_alt + 180) + " curr: " + (launch_angle * Mathf.Rad2Deg + 90));
+
             
             //Cast a ray in the direction specified in the inspector.
             RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, -distanceVector, arm_len, LayerMask.GetMask("Default"));
+            //Debug.Log((Quaternion.Euler(0, 0, 3)) * -distanceVector + " " + -distanceVector);
+            RaycastHit2D hitP = Physics2D.Raycast(this.gameObject.transform.position, ((Quaternion.Euler(0, 0, checkAng)) * -launch_direction ), arm_len, LayerMask.GetMask("Default"));
+            RaycastHit2D hitN = Physics2D.Raycast(this.gameObject.transform.position, ((Quaternion.Euler(0, 0, -checkAng)) * -launch_direction ), arm_len, LayerMask.GetMask("Default"));
+            //Debug.Log(hitP.collider == null && hitN.collider == null);
 
             // Second part of condition should not occur
-            if (hit.collider == null || (hit.collider != null && hit.distance >= arm_len))
+            if (/* (hit.collider == null || (hit.collider != null && hit.distance >= arm_len)) && */ ((hitP.collider == null &&  (-target_angle_alt + 180 + 360) > (launch_angle * Mathf.Rad2Deg + 90 + 360)) || (hitN.collider == null && (-target_angle_alt + 180 + 360) < (launch_angle * Mathf.Rad2Deg + 90 + 360))) )
             {
                 // Rotate if no impedance detected, no jump
-                // Removed attempt at implementation
-
                 //if ((gameObject.transform.rotation.z+360 < angle+90+360 + 3) && (gameObject.transform.rotation.z+360 > angle+90+360 - 3)) {
                 //if (arm_len < 0.5 || (Quaternion.Angle(transform.rotation, Quaternion.AngleAxis(angle + 90, Vector3.forward)) > -10 && Quaternion.Angle(transform.rotation, Quaternion.AngleAxis(angle + 90, Vector3.forward)) < 10)) {
-                    gameObject.transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-                //}
+                if (arm_len > 0.5) {
+                    //gameObject.transform.rotation = Quaternion.AngleAxis(-target_angle + 90, Vector3.forward);
+                    gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, Quaternion.AngleAxis(-target_angle + 90, Vector3.forward), Time.deltaTime * rot_rate);
+                } else {
+                    gameObject.transform.rotation = Quaternion.AngleAxis(-target_angle + 90, Vector3.forward);
+                }
             }
         //}
+            else {
+                // Keep this fixed
+                //gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, Quaternion.AngleAxis(angle + 90, Vector3.forward), Time.deltaTime * rot_rate);
+            }
     }
     
      void OnCollisionEnter2D(Collision2D collision) //apply force only at initial collision time
