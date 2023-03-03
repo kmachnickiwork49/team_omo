@@ -330,8 +330,8 @@ MonoBehaviour:
     m_Bits: 1024
   - serializedVersion: 2
     m_Bits: 8
-  gravity: -1
-  effectionRadius: 8
+  gravity: -3
+  effectionRadius: 12
   AttractedObjects: []
   circleTransform: {fileID: 0}
 --- !u!212 &835040893
