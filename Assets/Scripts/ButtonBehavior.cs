@@ -10,15 +10,7 @@ public class ButtonBehavior : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col) 
     {
         // Add another if statement for "box" objects or any other interactable objects that will push button
-        if (col.gameObject.CompareTag("Player"))
-        {
-            door.SetActive(false);
-        }
-        else 
-        {
-            door.SetActive(true);
-        }
-        if (col.gameObject.CompareTag("Box"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
             door.SetActive(false);
         }
@@ -30,7 +22,7 @@ public class ButtonBehavior : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
             door.SetActive(true);
         }
