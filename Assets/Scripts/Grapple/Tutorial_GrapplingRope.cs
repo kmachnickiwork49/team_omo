@@ -61,12 +61,16 @@ public class Tutorial_GrapplingRope : MonoBehaviour
     {
         if (!strightLine)
         {
-            if (m_lineRenderer.GetPosition(percision - 1).x == grapplingGun.grapplePoint.x)
+            //if (m_lineRenderer.GetPosition(percision - 1).x == grapplingGun.grapplePoint.x)
+            // Floating point rounding error when out of range
+            if (m_lineRenderer.GetPosition(percision - 1).x <= grapplingGun.grapplePoint.x + 0.01 && m_lineRenderer.GetPosition(percision - 1).x >= grapplingGun.grapplePoint.x - 0.01 && m_lineRenderer.GetPosition(percision - 1).y <= grapplingGun.grapplePoint.y + 0.01 && m_lineRenderer.GetPosition(percision - 1).y >= grapplingGun.grapplePoint.y - 0.01)
             {
+                // Does not enter here if out of grapple range
                 strightLine = true;
             }
             else
             {
+                //Debug.Log("" + m_lineRenderer.GetPosition(percision - 1).x + " " + grapplingGun.grapplePoint.x);
                 DrawRopeWaves();
             }
         }
@@ -77,6 +81,7 @@ public class Tutorial_GrapplingRope : MonoBehaviour
                 //Debug.Log("enter Grapple()");
                 // Enters Grapple() once within range... but already drawn connection to point
                 // Which is problematic if you aim while within range, but then exit max range
+                // Bug fix --> now begins to grapple as soon as rope reaches its contact point
                 grapplingGun.Grapple();
                 isGrappling = true;
             }
