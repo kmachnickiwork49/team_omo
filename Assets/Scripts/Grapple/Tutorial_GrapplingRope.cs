@@ -21,7 +21,7 @@ public class Tutorial_GrapplingRope : MonoBehaviour
 
     float moveTime = 0;
 
-    [HideInInspector] public bool isGrappling = true;
+    /*[HideInInspector]*/ [SerializeField] public bool isGrappling = false;
 
     bool strightLine = true;
 
@@ -74,6 +74,9 @@ public class Tutorial_GrapplingRope : MonoBehaviour
         {
             if (!isGrappling)
             {
+                //Debug.Log("enter Grapple()");
+                // Enters Grapple() once within range... but already drawn connection to point
+                // Which is problematic if you aim while within range, but then exit max range
                 grapplingGun.Grapple();
                 isGrappling = true;
             }

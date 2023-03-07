@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Tutorial_GrapplingGun : MonoBehaviour
 {
+    [Header("Physics2d raycast filter")]
+    [SerializeField] private LayerMask layerMask; // To make physics2d raycast not hit player
+
     [Header("Scripts Ref:")]
     public Tutorial_GrapplingRope grappleRope;
 
@@ -63,6 +66,7 @@ public class Tutorial_GrapplingGun : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Mouse0))
         {
+            //SetGrapplePoint();
             if (grappleRope.enabled)
             {
                 RotateGun(grapplePoint, false);
@@ -73,6 +77,8 @@ public class Tutorial_GrapplingGun : MonoBehaviour
                 RotateGun(mousePos, true);
             }
 
+            /*
+            // Irrelevant to our implementation with PhysicsLaunch
             if (launchToPoint && grappleRope.isGrappling)
             {
                 if (launchType == LaunchType.Transform_Launch)
@@ -82,6 +88,7 @@ public class Tutorial_GrapplingGun : MonoBehaviour
                     gunHolder.position = Vector2.Lerp(gunHolder.position, targetPos, Time.deltaTime * launchSpeed);
                 }
             }
+            */
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0))
         {
@@ -114,9 +121,9 @@ public class Tutorial_GrapplingGun : MonoBehaviour
     void SetGrapplePoint()
     {
         Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
-        if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
+        if (Physics2D.Raycast(firePoint.position, distanceVector.normalized, layerMask))
         {
-            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
+            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, layerMask);
             if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
             {
                 if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)

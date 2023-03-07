@@ -650,29 +650,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0041656494
+      time: 0
       value: 0
-      inSlope: 3.2546175
-      outSlope: 3.2546175
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.19512966
-    - serializedVersion: 3
-      time: 0.17499745
-      value: 0.50471413
-      inSlope: 1.6627148
-      outSlope: 1.6627148
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.08081091
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1067,7 +1058,7 @@ Transform:
   m_GameObject: {fileID: 2073257988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1099232188}
@@ -1086,6 +1077,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80437f3413c1c664c80e7c1624d8faca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   grappleRope: {fileID: 1030209550}
   grappleToAll: 1
   grappableLayerNumber: 8
