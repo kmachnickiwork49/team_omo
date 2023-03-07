@@ -40,7 +40,9 @@ public class Attractor : MonoBehaviour
     {
         for (int i = 0; i < AttractedObjects.Count; i++)
         {
-            AttractedObjects[i].GetComponent<Attractable>().Attract(this);
+            if (AttractedObjects[i] != null) {
+                AttractedObjects[i].GetComponent<Attractable>().Attract(this);
+            }
         }
     }
 
