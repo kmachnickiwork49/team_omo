@@ -3,7 +3,7 @@ using UnityEngine;
 public class Tutorial_GrapplingGun : MonoBehaviour
 {
     [Header("Physics2d raycast filter")]
-    [SerializeField] private LayerMask layerMask; // To make physics2d raycast not hit player
+    [SerializeField] public LayerMask layerMask; // To make physics2d raycast not hit player
 
     [Header("Scripts Ref:")]
     public Tutorial_GrapplingRope grappleRope;

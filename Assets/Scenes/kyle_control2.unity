@@ -602,7 +602,7 @@ MonoBehaviour:
   grapplingGun: {fileID: 2073257990}
   m_lineRenderer: {fileID: 1030209551}
   percision: 40
-  straightenLineSpeed: 5
+  straightenLineSpeed: 20
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -645,7 +645,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  StartWaveSize: 2
+  StartWaveSize: 0
   ropeProgressionCurve:
     serializedVersion: 2
     m_Curve:
