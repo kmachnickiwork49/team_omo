@@ -130,7 +130,7 @@ public class Tutorial_GrapplingGun : MonoBehaviour
             RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, layerMask);
             if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
             {
-                ///if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
+                //if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
                 {
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
@@ -138,7 +138,8 @@ public class Tutorial_GrapplingGun : MonoBehaviour
                 }
             }
         } else {
-            grapplePoint = (Vector2)firePoint.position + distanceVector.normalized * grappleRope.armLen;
+            // Keep out of reach
+            grapplePoint = (Vector2)firePoint.position + distanceVector.normalized * (grappleRope.armLen + 1.0f);
             grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
             grappleRope.enabled = true;
         }
