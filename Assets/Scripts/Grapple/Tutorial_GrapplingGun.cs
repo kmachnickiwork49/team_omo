@@ -67,7 +67,11 @@ public class Tutorial_GrapplingGun : MonoBehaviour
         else if (Input.GetKey(KeyCode.Mouse0))
         {
             //SetGrapplePoint();
-            if (grappleRope.enabled)
+            if (!grappleRope.strightLine) {
+                SetGrapplePoint();
+                Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
+                RotateGun(mousePos, true);
+            } else if (grappleRope.enabled)
             {
                 RotateGun(grapplePoint, false);
             }
@@ -126,13 +130,17 @@ public class Tutorial_GrapplingGun : MonoBehaviour
             RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, layerMask);
             if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
             {
-                if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
+                ///if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
                 {
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
                     grappleRope.enabled = true;
                 }
             }
+        } else {
+            grapplePoint = (Vector2)firePoint.position + distanceVector.normalized * grappleRope.armLen;
+            grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
+            grappleRope.enabled = true;
         }
     }
 

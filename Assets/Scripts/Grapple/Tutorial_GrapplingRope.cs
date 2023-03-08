@@ -3,7 +3,7 @@ using UnityEngine;
 public class Tutorial_GrapplingRope : MonoBehaviour
 {
     [Header("Arm len:")]
-    float armLen = 8.0f;
+    public float armLen = 8.0f;
 
     [Header("General Refernces:")]
     public Tutorial_GrapplingGun grapplingGun;
@@ -26,7 +26,7 @@ public class Tutorial_GrapplingRope : MonoBehaviour
 
     /*[HideInInspector]*/ [SerializeField] public bool isGrappling = false;
 
-    bool strightLine = true;
+    public bool strightLine = true;
 
     private void OnEnable()
     {
