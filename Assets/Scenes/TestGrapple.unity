@@ -231,7 +231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271541808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -395,10 +395,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b305083c750344f8c153206d8322ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armLen: 5
   grapplingGun: {fileID: 993511616}
   m_lineRenderer: {fileID: 611873358}
-  percision: 40
-  straightenLineSpeed: 5
+  percision: 50
+  straightenLineSpeed: 50
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -441,7 +442,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  StartWaveSize: 2
+  StartWaveSize: 1
   ropeProgressionCurve:
     serializedVersion: 2
     m_Curve:
@@ -468,6 +469,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ropeProgressionSpeed: 1
   isGrappling: 1
+  strightLine: 1
 --- !u!120 &611873358
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -578,7 +580,7 @@ GameObject:
   - component: {fileID: 749763005}
   - component: {fileID: 749763004}
   - component: {fileID: 749763006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +691,7 @@ GameObject:
   - component: {fileID: 982421489}
   - component: {fileID: 982421488}
   - component: {fileID: 982421490}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -816,7 +818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993511614}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 0.55, y: -0.10703182, z: -1.5792744}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -836,8 +838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80437f3413c1c664c80e7c1624d8faca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   grappleRope: {fileID: 611873357}
-  grappleToAll: 1
+  grappleToAll: 0
   grappableLayerNumber: 8
   m_camera: {fileID: 138657757}
   gunHolder: {fileID: 1341239768}
@@ -846,12 +851,12 @@ MonoBehaviour:
   m_springJoint2D: {fileID: 1341239765}
   m_rigidbody: {fileID: 1341239766}
   rotateOverTime: 1
-  rotationSpeed: 4
+  rotationSpeed: 60
   hasMaxDistance: 1
-  maxDistnace: 20
+  maxDistnace: 10
   launchToPoint: 1
   launchType: 1
-  launchSpeed: 2
+  launchSpeed: 1.25
   autoConfigureDistance: 1
   targetDistance: 3
   targetFrequncy: 1
@@ -946,7 +951,7 @@ GameObject:
   - component: {fileID: 1190965534}
   - component: {fileID: 1190965533}
   - component: {fileID: 1190965535}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1099,7 +1104,7 @@ SpringJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 4.960494
+  m_Distance: 4.900745
   m_DampingRatio: 1
   m_Frequency: 1
 --- !u!50 &1341239766
@@ -1183,7 +1188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341239763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.96, y: 0.07, z: 0}
+  m_LocalPosition: {x: -3.82, y: 3.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1202,7 +1207,7 @@ GameObject:
   - component: {fileID: 1448013455}
   - component: {fileID: 1448013454}
   - component: {fileID: 1448013453}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
