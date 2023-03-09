@@ -53,10 +53,19 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Jump() {
-        rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-        grounded = false;
+        RaycastHit2D[] my_r = Physics2D.RaycastAll(gameObject.transform.position, -Vector2.up, 1.0f); // Radius + forgiveness as last argument
+        foreach (RaycastHit2D x in my_r) {
+            if (x.collider.gameObject.tag == "Ground") {
+                //grounded = true;
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+                break;
+            }
+        }
+        //rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+        //grounded = false;
     }
 
+/*
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Ground") {
             grounded = true;
@@ -68,4 +77,6 @@ public class PlayerController : MonoBehaviour
             grounded = false;
         }
     }
+*/
+
 }
