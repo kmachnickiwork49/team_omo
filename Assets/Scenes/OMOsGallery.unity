@@ -2468,12 +2468,12 @@ MonoBehaviour:
   m_springJoint2D: {fileID: 967245820}
   m_rigidbody: {fileID: 967245823}
   rotateOverTime: 1
-  rotationSpeed: 40
+  rotationSpeed: 60
   hasMaxDistance: 1
   maxDistnace: 8
   launchToPoint: 1
   launchType: 1
-  launchSpeed: 2
+  launchSpeed: 0.5
   autoConfigureDistance: 1
   targetDistance: 3
   targetFrequncy: 1
@@ -4221,9 +4221,9 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -5.3289776, y: 1.0848225}
-  - {x: -0.84584326, y: 1.0439835}
-  - {x: 0.6096131, y: 1.0307248}
+  - {x: -6.1648407, y: 1.4783154}
+  - {x: -1.7943618, y: 1.0383213}
+  - {x: -0.34616542, y: 0.8925263}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -4243,7 +4243,7 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 1
     m_ControlPoints:
-    - position: {x: -3.8438492, y: -0.0639534, z: 0}
+    - position: {x: -4.7905445, y: 0.19901848, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -4253,7 +4253,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: -0.856184, y: -0.09116936, z: 0}
+    - position: {x: -1.9080715, y: -0.09116936, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -4320,7 +4320,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: f6393a13b2d81ab4ab05e526af30f810, type: 3}
@@ -4336,8 +4336,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: -2.370023, y: -0.07737911, z: 0}
-    m_Extent: {x: 2.980067, y: 1.2094996, z: 0}
+    m_Center: {x: -3.3692157, y: 0.055930376, z: 0}
+    m_Extent: {x: 3.0277884, y: 1.4694471, z: 0}
 --- !u!4 &2046025546
 Transform:
   m_ObjectHideFlags: 0
