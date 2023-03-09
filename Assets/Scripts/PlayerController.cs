@@ -44,6 +44,10 @@ public class PlayerController : MonoBehaviour
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.W)) && grounded){          
             Jump();
         }
+        if (mainCamera)
+        {
+            mainCamera.transform.position = new Vector3(transform.position.x, cameraPos.y, cameraPos.z);
+        }
     }
 
     public void Jump() {

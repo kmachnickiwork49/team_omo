@@ -7,20 +7,14 @@ public class ButtonBehavior : MonoBehaviour
     // Add as many game objects as necessary
     public GameObject door;
 
+
     private void OnCollisionEnter2D(Collision2D col) 
     {
         // Add another if statement for "box" objects or any other interactable objects that will push button
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
             door.SetActive(false);
-        }
-        else 
-        {
-            door.SetActive(true);
-        }
-        if (col.gameObject.CompareTag("Box"))
-        {
-            door.SetActive(false);
+            //transform.position = transform.position + new Vector3(0, -0.1f, 0);
         }
         else 
         {
@@ -30,9 +24,10 @@ public class ButtonBehavior : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
             door.SetActive(true);
+            //transform.position = transform.position + new Vector3(0, 0.1f, 0);
         }
     }
 }
