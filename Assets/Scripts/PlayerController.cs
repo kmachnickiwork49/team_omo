@@ -46,7 +46,9 @@ public class PlayerController : MonoBehaviour
         }
         if (mainCamera)
         {
-            mainCamera.transform.position = new Vector3(transform.position.x, cameraPos.y, cameraPos.z);
+            mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, cameraPos.z);
+            // No y movement ->
+            //mainCamera.transform.position = new Vector3(transform.position.x, cameraPos.y, cameraPos.z);
         }
     }
 

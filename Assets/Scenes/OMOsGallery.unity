@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 50706359}
   m_Layer: 0
   m_Name: Sand (10)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 69957376}
   m_Layer: 0
   m_Name: Sand
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -502,25 +502,24 @@ PolygonCollider2D:
       - {x: -29.021225, y: 13.234299}
       - {x: -29.495985, y: 12.943757}
       - {x: -29.941528, y: 12.611708}
-      - {x: -30.206604, y: 12.370388}
-      - {x: -30.307512, y: 12.215918}
-      - {x: -30.436853, y: 11.970032}
-      - {x: -30.578041, y: 11.651165}
-      - {x: -30.723606, y: 11.275427}
-      - {x: -30.8704, y: 10.856502}
-      - {x: -31.164434, y: 9.9352455}
-      - {x: -31.462479, y: 8.968848}
-      - {x: -31.6163, y: 8.490307}
-      - {x: -31.776274, y: 8.024488}
-      - {x: -31.946054, y: 7.5767617}
-      - {x: -32.13186, y: 7.1500835}
-      - {x: -32.388645, y: 6.676696}
-      - {x: -33.02046, y: 6.176673}
-      - {x: -34.11123, y: 6.31515}
-      - {x: -34.567146, y: 6.8592567}
-      - {x: -34.676094, y: 7.167485}
-      - {x: -34.768738, y: 7.644587}
-      - {x: -34.948807, y: 9.234585}
+      - {x: -30.22862, y: 12.351159}
+      - {x: -30.336184, y: 12.201019}
+      - {x: -30.466146, y: 11.980316}
+      - {x: -30.606823, y: 11.701025}
+      - {x: -30.752228, y: 11.374607}
+      - {x: -31.047657, y: 10.620373}
+      - {x: -31.498672, y: 9.360188}
+      - {x: -31.815985, y: 8.514683}
+      - {x: -31.98598, y: 8.106667}
+      - {x: -32.16892, y: 7.713253}
+      - {x: -32.39901, y: 7.2928348}
+      - {x: -32.770996, y: 6.8993835}
+      - {x: -33.708336, y: 6.7003717}
+      - {x: -34.44526, y: 7.152587}
+      - {x: -34.658836, y: 7.531677}
+      - {x: -34.735165, y: 7.776315}
+      - {x: -34.81188, y: 8.177416}
+      - {x: -34.947533, y: 9.245626}
       - {x: -34.993866, y: 9.416308}
       - {x: -35.51676, y: 10.032759}
       - {x: -35.77382, y: 10.371441}
@@ -552,26 +551,26 @@ PolygonCollider2D:
       - {x: -42.138077, y: 20.939087}
       - {x: -42.57572, y: 21.073503}
       - {x: -42.905228, y: 21.158154}
-      - {x: -43.842358, y: 21.347908}
-      - {x: -44.759766, y: 21.508102}
-      - {x: -46.796783, y: 21.814917}
-      - {x: -47.000847, y: 21.85101}
-      - {x: -47.979263, y: 22.778152}
-      - {x: -47.219772, y: 24.14494}
-      - {x: -46.71788, y: 24.22226}
-      - {x: -46.472336, y: 24.218948}
-      - {x: -45.69119, y: 24.227346}
-      - {x: -45.103302, y: 24.280361}
-      - {x: -44.460503, y: 24.373882}
-      - {x: -43.849434, y: 24.500397}
-      - {x: -43.273613, y: 24.653065}
-      - {x: -42.736755, y: 24.82492}
-      - {x: -42.242584, y: 25.008827}
-      - {x: -41.794975, y: 25.197533}
-      - {x: -41.397697, y: 25.383648}
-      - {x: -41.054565, y: 25.5597}
-      - {x: -40.54577, y: 25.85139}
-      - {x: -39.973476, y: 26.202234}
+      - {x: -44.803604, y: 21.578842}
+      - {x: -45.279457, y: 21.695705}
+      - {x: -45.47864, y: 21.75338}
+      - {x: -45.722084, y: 21.84679}
+      - {x: -46.374252, y: 22.55965}
+      - {x: -46.021263, y: 23.853786}
+      - {x: -45.356915, y: 24.1441}
+      - {x: -44.897823, y: 24.165966}
+      - {x: -44.645523, y: 24.16186}
+      - {x: -43.887657, y: 24.170988}
+      - {x: -43.388115, y: 24.223248}
+      - {x: -42.871346, y: 24.313332}
+      - {x: -42.422543, y: 24.431633}
+      - {x: -42.036346, y: 24.570244}
+      - {x: -41.707436, y: 24.721886}
+      - {x: -41.43068, y: 24.879787}
+      - {x: -41.20147, y: 25.037584}
+      - {x: -40.86979, y: 25.328133}
+      - {x: -40.62544, y: 25.634552}
+      - {x: -40.154102, y: 26.103504}
       - {x: -38.860123, y: 26.827595}
       - {x: -37.94185, y: 27.370636}
       - {x: -37.36844, y: 27.716095}
@@ -919,8 +918,8 @@ MonoBehaviour:
       spriteIndex: 1
       corner: 1
       m_CornerMode: 1
-    - position: {x: -33.361347, y: 7.3491235, z: 0}
-      leftTangent: {x: 0.82821655, y: 1.4117465, z: 0}
+    - position: {x: -33.38943, y: 7.938879, z: 0}
+      leftTangent: {x: 0.82821655, y: 1.4117508, z: 0}
       rightTangent: {x: -0.26552582, y: -0.4565258, z: 0}
       mode: 1
       height: 1
@@ -969,7 +968,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: -46.502075, y: 23.036823, z: 0}
+    - position: {x: -44.675262, y: 22.979734, z: 0}
       leftTangent: {x: -1.2724228, y: 0.032009125, z: 0}
       rightTangent: {x: 3.9780807, y: -0.10007858, z: 0}
       mode: 1
@@ -1273,7 +1272,7 @@ GameObject:
   - component: {fileID: 232861458}
   m_Layer: 0
   m_Name: Sand (11)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1544,7 +1543,7 @@ GameObject:
   - component: {fileID: 362221666}
   m_Layer: 0
   m_Name: Sand (8)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1930,7 +1929,7 @@ GameObject:
   - component: {fileID: 700671889}
   m_Layer: 0
   m_Name: Sand (9)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2116,7 +2115,7 @@ GameObject:
   - component: {fileID: 765402190}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3215,7 +3214,7 @@ GameObject:
   - component: {fileID: 1474654154}
   m_Layer: 0
   m_Name: Sand (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3768,7 +3767,7 @@ GameObject:
   - component: {fileID: 1963329688}
   m_Layer: 0
   m_Name: Sand (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3962,7 +3961,7 @@ GameObject:
   - component: {fileID: 1971068521}
   m_Layer: 0
   m_Name: Sand (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4201,7 +4200,7 @@ GameObject:
   - component: {fileID: 2046025543}
   m_Layer: 0
   m_Name: Sand (7)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4347,7 +4346,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046025542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.02, y: -22.189999, z: 0}
+  m_LocalPosition: {x: -18.49, y: -22.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4368,7 +4367,7 @@ GameObject:
   - component: {fileID: 2071624183}
   m_Layer: 0
   m_Name: Sand (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
