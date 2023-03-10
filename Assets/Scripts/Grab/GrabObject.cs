@@ -10,6 +10,7 @@ public class GrabObject : MonoBehaviour
     private Transform grabPoint;
 
     private Vector2 grabVec;
+    private float grabz; 
 
     [SerializeField]
     private Transform rayPoint;
@@ -35,12 +36,13 @@ public class GrabObject : MonoBehaviour
 
         if (grabbedObject != null) {
             grabbedObject.transform.position = new Vector3(grabVec.x + gameObject.transform.position.x, grabVec.y + gameObject.transform.position.y, grabbedObject.transform.position.z);
+            grabbedObject.transform.rotation = new Quaternion(grabbedObject.transform.rotation.x, grabbedObject.transform.rotation.y, grabz, grabbedObject.transform.rotation.w);
         } 
 
         if (Input.GetKeyDown(KeyCode.E) && grabbedObject != null)
         {
             grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            grabbedObject.transform.SetParent(null);
+            //grabbedObject.transform.SetParent(null);
             grabbedObject = null;
             return; // Do not drop and grab same frame
         }
@@ -55,10 +57,11 @@ public class GrabObject : MonoBehaviour
                 //grabbedObject.transform.position = hitInfo.point;
                 offsetDist = Mathf.Max(1.01f, hitInfo.distance); // OMO radius
                 grabVec = (Vector2)grabbedObject.transform.position - (Vector2)hitInfo.point + (Vector2)rayPoint.position + (mousePos-(Vector2)rayPoint.position).normalized * offsetDist - (Vector2)gameObject.transform.position;
+                grabz = grabbedObject.transform.rotation.z;
                 //grabbedObject.transform.SetParent(transform);
             }
             //Debug.Log("Touch");
         }
-        Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance);       
+        //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance);       
     }
 }
