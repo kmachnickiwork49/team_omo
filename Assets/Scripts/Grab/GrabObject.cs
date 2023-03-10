@@ -39,7 +39,8 @@ public class GrabObject : MonoBehaviour
                 grabbedObject.transform.SetParent(null);
                 grabbedObject = null;
             }
+        Debug.Log("Touch");
         }
-        Debug.DrawRay(rayPoint.position, transform.right * rayDistance);
+        Debug.DrawRay(rayPoint.position, transform.right * rayDistance);       
     }
 }
