@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -43,9 +44,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health < 0)
+        if (health <= 0)
         {
             Debug.Log("dead");
+            Death();
             //TODO: reset level or gameover scene
         }
 
@@ -64,8 +66,8 @@ public class PlayerController : MonoBehaviour
         grounded = false;
     }
 
-    public void Damage(){
-
+    public void Death() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
