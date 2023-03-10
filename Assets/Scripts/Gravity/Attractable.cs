@@ -20,8 +20,8 @@ public class Attractable : MonoBehaviour
     {
         if (currentAttractor != null)
         {
-            if (!currentAttractor.AttractedObjects.Contains(m_collider)) currentAttractor = null;
-            if (rotateToCenter) RotateToCenter();
+            if (!currentAttractor.AttractedObjects.Contains(m_collider)) { currentAttractor = null; }
+            else if (rotateToCenter) { RotateToCenter(); }
         }
     }
 
