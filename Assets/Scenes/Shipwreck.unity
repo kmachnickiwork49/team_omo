@@ -1007,12 +1007,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d38693aba2a8f43c2bb8a491e30fc79f, type: 3}
+  m_Sprite: {fileID: -1107407156, guid: db3413c48c57b4b01af5549327e9ef36, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_DrawMode: 1
+  m_Size: {x: 2, y: 1.95}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1471,7 +1471,7 @@ GameObject:
   - component: {fileID: 1640141821}
   - component: {fileID: 1640141820}
   - component: {fileID: 1640141822}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1601,12 +1601,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1640141817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48759e18320b8004dbe20720d3e59b20, type: 3}
+  m_Script: {fileID: 11500000, guid: d1b8b055e1d1e4f49a05c9206cf01fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targets:
   - {fileID: 2053880834}
-  numOn: 0
+  leverOn: 0
+  my_spr:
+  - {fileID: 21300000, guid: f14b0ecad2c2ace469d5ee3fe55f4ebb, type: 3}
+  - {fileID: 21300000, guid: 931e23113b6e4e14684a681d5e658771, type: 3}
 --- !u!1 &1676404841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1746,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -2742,7 +2745,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -3320,7 +3323,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -3868,7 +3871,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
