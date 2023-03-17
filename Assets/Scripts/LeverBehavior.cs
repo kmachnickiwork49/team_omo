@@ -26,12 +26,12 @@ public class LeverBehavior : MonoBehaviour
             if (leverOn) {
                 spr_rend.sprite = my_spr[1];
                 foreach (GameObject o in targets) {
-                        o.SetActive(true);
+                        o.SetActive(false);
                 }
             } else {
                 spr_rend.sprite = my_spr[0];
                 foreach (GameObject o in targets) {
-                        o.SetActive(false);
+                        o.SetActive(true);
                 }
             }
         }
