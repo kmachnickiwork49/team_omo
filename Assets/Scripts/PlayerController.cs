@@ -84,11 +84,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void Death() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    }   
 
 
     void OnCollisionEnter2D(Collision2D collision) {
