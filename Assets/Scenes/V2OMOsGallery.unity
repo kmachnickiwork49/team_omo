@@ -3012,7 +3012,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461421075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: -28.3, z: 0}
+  m_LocalPosition: {x: -12, y: -28.3, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3035,8 +3035,12 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -13.24526, y: 7.364932}
-  - {x: -5.9814453, y: 1.9248047}
+  - {x: -9.081448, y: 2.6819482}
+  - {x: -12.765377, y: 1.0125945}
+  - {x: -14.422234, y: 2.269221}
+  - {x: -13.895229, y: 5.699546}
+  - {x: -12.015545, y: 6.464921}
+  - {x: -5.9804688, y: 1.9248047}
   - {x: -0.5185547, y: 1.0004883}
   - {x: 0.052246094, y: -0.79785156}
   - {x: 2.069117, y: -0.83575195}
@@ -3060,7 +3064,27 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 1
     m_ControlPoints:
-    - position: {x: -12.757114, y: 5.5219364, z: 0}
+    - position: {x: -10.931717, y: 3.141758, z: 0}
+      leftTangent: {x: 0, y: 0, z: 0}
+      rightTangent: {x: 0, y: 0, z: 0}
+      mode: 0
+      height: 1
+      bevelCutoff: 0
+      bevelSize: 0
+      spriteIndex: 0
+      corner: 1
+      m_CornerMode: 1
+    - position: {x: -13.253445, y: 2.089672, z: 0}
+      leftTangent: {x: 0, y: 0, z: 0}
+      rightTangent: {x: 0, y: 0, z: 0}
+      mode: 0
+      height: 1
+      bevelCutoff: 0
+      bevelSize: 0
+      spriteIndex: 0
+      corner: 1
+      m_CornerMode: 1
+    - position: {x: -12.726444, y: 5.519972, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -3174,8 +3198,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: 6b897fe8e52e9e94fb5c27b1f112bf0d, type: 3}
   m_LocalAABB:
-    m_Center: {x: -5.569313, y: 2.068666, z: 0}
-    m_Extent: {x: 9.093693, y: 5.2962656, z: 0}
+    m_Center: {x: -5.7714434, y: 2.0682044, z: 0}
+    m_Extent: {x: 9.295823, y: 5.295804, z: 0}
 --- !u!1 &1508908771
 GameObject:
   m_ObjectHideFlags: 0
