@@ -8,7 +8,7 @@ public class HealthController : MonoBehaviour
 
     public int maxHealth = 4;
     public int currentHealth;
-    public string currentSceneName;
+    private string currentSceneName;
 
     public HealthBar healthBar;
 
