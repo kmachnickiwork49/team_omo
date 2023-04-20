@@ -5,28 +5,40 @@ using UnityEngine;
 public class ButtonBehavior : MonoBehaviour
 {
     // Add as many game objects as necessary
-    public GameObject door;
+    public GameObject[] targets;
+    [SerializeField] int numOn;
 
+    private void Start() {
+        numOn = 0;
+    }
 
-    private void OnCollisionEnter2D(Collision2D col) 
+    private void OnTriggerEnter2D(Collider2D col) 
     {
         // Add another if statement for "box" objects or any other interactable objects that will push button
         if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
-            door.SetActive(false);
+            numOn += 1;
+            foreach (GameObject o in targets) {
+                o.SetActive(false);
+            }
             //transform.position = transform.position + new Vector3(0, -0.1f, 0);
         }
         else 
         {
-            door.SetActive(true);
+            //door.SetActive(true);
         }
     }
 
-    private void OnCollisionExit2D(Collision2D col)
+    private void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Box"))
         {
-            door.SetActive(true);
+            numOn -= 1;
+            if (numOn <= 0) {
+                foreach (GameObject o in targets) {
+                    o.SetActive(true);
+                }
+            }
             //transform.position = transform.position + new Vector3(0, 0.1f, 0);
         }
     }
