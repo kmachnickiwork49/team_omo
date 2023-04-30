@@ -1242,7 +1242,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gravity: -12
-  effectionRadius: 40
+  effectionRadius: 10
   AttractedObjects: []
   circleTransform: {fileID: 0}
 --- !u!114 &1182847712
