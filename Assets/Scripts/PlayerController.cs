@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private CircleCollider2D circle;
     public bool grounded;
-    private Animator animator;
+    // private Animator animator;
     public float health;
 
     [SerializeField] float speed = 5f;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         circle = GetComponent<CircleCollider2D>();
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
         grounded = true;
         health = maxHealth;
 
