@@ -11,6 +11,11 @@ public class Arm_Scratch : MonoBehaviour
     private bool targetLocked;
     [SerializeField] float rotationSpeed;
 
+    private bool extending;
+    [SerializeField] float len;
+    [SerializeField] float extendRate;
+    [SerializeField] float maxLen;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +24,14 @@ public class Arm_Scratch : MonoBehaviour
         reticle = GameObject.Find("TargetReticle");
         //m_camera = GameObject.Find("Main Camera"); 
         // Init camera in GUI
+        extending = false;
+        len = 0.0f;
+        if (maxLen < 1.0f) {
+            maxLen = 1.0f;
+        }
+        if (extendRate < 0.1f) {
+            extendRate = 0.1f;
+        }
     }
 
     // Update is called once per frame
@@ -29,6 +42,26 @@ public class Arm_Scratch : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             targetLocked = true;
         }
+
+        // Extension of arm
+        if (Input.GetKeyDown(KeyCode.Mouse1)) {
+            extending = !extending;
+        }
+        if (extending) {
+            if (len < maxLen) {
+                len += extendRate * Time.deltaTime;
+            } else {
+                len = maxLen;
+            }
+        } else {
+            if (len > 0) {
+                len -= extendRate * Time.deltaTime;
+            } else {
+                len = 0;
+            }
+        }
+        gameObject.transform.localScale = new Vector3(len, 1, 1);
+
         if (targetLocked) {
             TorqueArm(reticle.transform.position);
         } else {

@@ -256,7 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateToCenter: 0
   currentAttractor: {fileID: 0}
-  attractionDir: {x: 0, y: 0}
 --- !u!114 &232279472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,14 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb9ce0172595de489765584a26c4684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grounded: 0
-  health: 0
   speed: 1
   maxSpeed: 3
   jumpHeight: 6
-  maxHealth: 10
-  knockbackX: 5
-  knockbackY: 4
   mainCamera: {fileID: 1278922454}
 --- !u!50 &232279473
 Rigidbody2D:
@@ -527,6 +521,9 @@ MonoBehaviour:
   reticle: {fileID: 107041435}
   m_camera: {fileID: 1278922454}
   rotationSpeed: 10
+  len: 0
+  extendRate: 10
+  maxLen: 5
 --- !u!212 &606608434
 SpriteRenderer:
   m_ObjectHideFlags: 0
