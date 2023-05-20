@@ -1924,7 +1924,7 @@ GameObject:
   - component: {fileID: 739581029}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1979,6 +1979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateToCenter: 0
   currentAttractor: {fileID: 0}
+  attractionDir: {x: 0, y: 0}
 --- !u!114 &739581032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1991,9 +1992,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb9ce0172595de489765584a26c4684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grounded: 0
+  health: 0
   speed: 6
   maxSpeed: 6
   jumpHeight: 8
+  maxHealth: 10
+  knockbackX: 5
+  knockbackY: 4
   mainCamera: {fileID: 1426941872}
 --- !u!50 &739581033
 Rigidbody2D:
