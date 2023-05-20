@@ -41,9 +41,7 @@ public class GrabObject : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && grabbedObject != null)
         {
-            grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            //grabbedObject.transform.SetParent(null);
-            grabbedObject = null;
+            ReleaseGrabbedObject();
             return; // Do not drop and grab same frame
         }
 
@@ -52,16 +50,33 @@ public class GrabObject : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && grabbedObject == null) 
             {
                 grabbedObject = hitInfo.collider.gameObject;
-                grabbedObject.GetComponent<Rigidbody2D>().isKinematic = true;
-                //grabbedObject.transform.position = grabPoint.position;
-                //grabbedObject.transform.position = hitInfo.point;
-                offsetDist = Mathf.Max(1.01f, hitInfo.distance); // OMO radius
-                grabVec = (Vector2)grabbedObject.transform.position - (Vector2)hitInfo.point + (Vector2)rayPoint.position + (mousePos-(Vector2)rayPoint.position).normalized * offsetDist - (Vector2)gameObject.transform.position;
-                grabz = grabbedObject.transform.rotation.z;
+                GrabOntoObject(mousePos, hitInfo);
                 //grabbedObject.transform.SetParent(transform);
             }
             //Debug.Log("Touch");
         }
         //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance);       
+    }
+
+    private void UpdateGrabbedObject()
+    {
+
+    }
+
+    private void ReleaseGrabbedObject()
+    {
+        grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            //grabbedObject.transform.SetParent(null);
+        grabbedObject = null;
+    }
+
+    private void GrabOntoObject(Vector2 mousePos, RaycastHit2D hitInfo)
+    {
+        grabbedObject.GetComponent<Rigidbody2D>().isKinematic = true;
+                //grabbedObject.transform.position = grabPoint.position;
+                //grabbedObject.transform.position = hitInfo.point;
+        offsetDist = Mathf.Max(1.01f, hitInfo.distance); // OMO radius
+        grabVec = (Vector2)grabbedObject.transform.position - (Vector2)hitInfo.point + (Vector2)rayPoint.position + (mousePos-(Vector2)rayPoint.position).normalized * offsetDist - (Vector2)gameObject.transform.position;
+        grabz = grabbedObject.transform.rotation.z;
     }
 }
