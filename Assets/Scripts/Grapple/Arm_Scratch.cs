@@ -95,7 +95,31 @@ public class Arm_Scratch : MonoBehaviour
         // Negative coeff --> clockwise
         // Positive coeff --> counter-clockwise
         Debug.Log("target: " + adjust_angle + " z: " + transform.localRotation.eulerAngles.z);
-        if (transform.localRotation.eulerAngles.z > 270 
+        if (transform.localRotation.eulerAngles.z > 90 && transform.localRotation.eulerAngles.z < 180
+            && adjust_angle > 270
+            && adjust_angle - transform.localRotation.eulerAngles.z > 180) {
+            // Negative for quadrant 2 -> 4
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z > 270
+            && adjust_angle > 90 && adjust_angle < 180
+            && transform.localRotation.eulerAngles.z - adjust_angle > 180) {
+            // Positive for quadrant 4 -> 2
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z > 180 && transform.localRotation.eulerAngles.z < 270
+            && adjust_angle < 90
+            && transform.localRotation.eulerAngles.z - adjust_angle > 180) {
+            // Positive for quadrant 3 -> 1
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z < 90
+            && adjust_angle > 180 && adjust_angle < 270
+            && adjust_angle - transform.localRotation.eulerAngles.z > 180) {
+            // Negative for quadrant 1 -> 3
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z > 270 
             && adjust_angle < 90) {
             my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
 
