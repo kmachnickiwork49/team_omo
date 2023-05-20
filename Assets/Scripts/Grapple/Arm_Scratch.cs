@@ -15,6 +15,7 @@ public class Arm_Scratch : MonoBehaviour
     [SerializeField] float len;
     [SerializeField] float extendRate;
     [SerializeField] float maxLen;
+    Rigidbody2D my_rb;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class Arm_Scratch : MonoBehaviour
         if (extendRate < 0.1f) {
             extendRate = 0.1f;
         }
+        my_rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -60,13 +62,13 @@ public class Arm_Scratch : MonoBehaviour
                 len = 0;
             }
         }
-        gameObject.transform.localScale = new Vector3(len, 1, 1);
+        gameObject.transform.localScale = new Vector3(len, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
-        if (targetLocked) {
+        if (len > 0.05 && targetLocked) {
             TorqueArm(reticle.transform.position);
         } else {
             // No target lock, retracted
-            RotateArm(mousePos);
+            RotateArm(reticle.transform.position);
         }
     }
 
@@ -82,6 +84,51 @@ public class Arm_Scratch : MonoBehaviour
         // Hit object while trying to get to target --> retract and take damage
         Vector3 distanceVector = lookPoint - gameObject.transform.position;
         float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
-        gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime * rotationSpeed);
+        //gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime * rotationSpeed);
+
+        // Match angle for 0 to 180
+        // When angle -180 to -0, turn into 180 to 360
+        float adjust_angle = angle;
+        if (adjust_angle < 0) {
+            adjust_angle += 360.0f;
+        }
+        // Negative coeff --> clockwise
+        // Positive coeff --> counter-clockwise
+        Debug.Log("target: " + adjust_angle + " z: " + transform.localRotation.eulerAngles.z);
+        if (transform.localRotation.eulerAngles.z > 270 
+            && adjust_angle < 90) {
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z < 90 
+            && adjust_angle > 270) {
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z > 270 
+            && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle >= 2.0F) {
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z > 270
+            && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z >= 0 
+            && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle >= 2.0F) {
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (transform.localRotation.eulerAngles.z >= 0
+            && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (adjust_angle <= 180 && transform.localRotation.eulerAngles.z - adjust_angle > 2.0F) {
+            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else if (adjust_angle <= 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
+            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+
+        } else {
+            // When at destination, don't need to apply more force, "cheat"?
+            RotateArm(lookPoint);
+            my_rb.angularVelocity = 0.0f; 
+        }
     }
 }
