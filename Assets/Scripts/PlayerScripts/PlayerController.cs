@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CircleCollider2D circle;
-    public bool grounded;
+    [SerializeField] public bool grounded;
     private Animator animator;
     public float health;
 
@@ -97,8 +97,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Hazard") {
             //TODO: can modify this so each hazard has its own script that defines how much damage it deals
             //here, access collision object's script for a "damage" variable and subtract from health
-            health--;
-
+            health = health - 3;
             int dir = collision.gameObject.GetComponent<Transform>().position.x > rb.position.x ? -1 : 1;
             rb.velocity = new Vector2(knockbackX*dir, knockbackY);
             // animator.SetBool("hit", true);
