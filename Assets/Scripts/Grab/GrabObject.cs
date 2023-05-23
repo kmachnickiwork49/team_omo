@@ -9,16 +9,20 @@ public class GrabObject : MonoBehaviour
     [SerializeField]
     private Transform grabPoint;
 
-    private Vector2 grabVec;
-    private float grabz; 
 
     [SerializeField]
     private Transform rayPoint;
     [SerializeField]
     private float rayDistance;
 
+    private Vector2 grabVec;
+    private float grabz; 
+
+
     // offset Dist is magnitude of offset of grabbed object from player
     // offset is the vector of the offset
+
+    // CHANGE offsetDist TO CHANGE HOW FAR THE OBJECT WILL BE
     private float offsetDist;
     private Vector2 offset;
 
@@ -30,6 +34,8 @@ public class GrabObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // CHANGE offsetDist TO CHANGE HOW FAR THE OBJECT WILL BE
+        offsetDist = 2.31f; // OMO radius, oriignally 1.01f
         layerIndex = LayerMask.NameToLayer("GrabbableObject");
 
         // required to set player tag
@@ -101,7 +107,7 @@ public class GrabObject : MonoBehaviour
 
         Transform playerTransform = player.transform;
 
-        offsetDist = Mathf.Max(2.31f, hitInfo.distance); // OMO radius, oriignally 1.01f
+
 
         offset = offsetDist * (Vector2)(grabbedObject.transform.position - player.transform.position).normalized;
 
