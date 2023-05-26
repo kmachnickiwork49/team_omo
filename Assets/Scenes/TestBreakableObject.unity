@@ -1931,8 +1931,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subObjects:
-  - {fileID: 478904952}
-  subObjectMassMultiplier: 1
+  - {fileID: 28770675}
+  - {fileID: 170661763}
+  - {fileID: 505193058}
 --- !u!1 &287193843
 GameObject:
   m_ObjectHideFlags: 0

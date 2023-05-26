@@ -9,22 +9,37 @@ public class GrabObject : MonoBehaviour
     [SerializeField]
     private Transform grabPoint;
 
-    private Vector2 grabVec;
-    private float grabz; 
 
     [SerializeField]
     private Transform rayPoint;
     [SerializeField]
     private float rayDistance;
 
+    private Vector2 grabVec;
+    private float grabz; 
+
+
+    // offset Dist is magnitude of offset of grabbed object from player
+    // offset is the vector of the offset
+
+    // CHANGE offsetDist TO CHANGE HOW FAR THE OBJECT WILL BE
     private float offsetDist;
+    private Vector2 offset;
 
     private GameObject grabbedObject;
+    private GameObject player;
     private int layerIndex; 
+
+    private Rigidbody2D grabbedObjectRb;
     // Start is called before the first frame update
     void Start()
     {
+        // CHANGE offsetDist TO CHANGE HOW FAR THE OBJECT WILL BE
+        offsetDist = 2.31f; // OMO radius, oriignally 1.01f
         layerIndex = LayerMask.NameToLayer("GrabbableObject");
+
+        // required to set player tag
+        player = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
@@ -35,15 +50,12 @@ public class GrabObject : MonoBehaviour
         //Debug.Log(hitInfo.collider);
 
         if (grabbedObject != null) {
-            grabbedObject.transform.position = new Vector3(grabVec.x + gameObject.transform.position.x, grabVec.y + gameObject.transform.position.y, grabbedObject.transform.position.z);
-            grabbedObject.transform.rotation = new Quaternion(grabbedObject.transform.rotation.x, grabbedObject.transform.rotation.y, grabz, grabbedObject.transform.rotation.w);
+            UpdateGrabbedObject();
         } 
 
         if (Input.GetKeyDown(KeyCode.E) && grabbedObject != null)
         {
-            grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            //grabbedObject.transform.SetParent(null);
-            grabbedObject = null;
+            ReleaseGrabbedObject();
             return; // Do not drop and grab same frame
         }
 
@@ -52,16 +64,70 @@ public class GrabObject : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && grabbedObject == null) 
             {
                 grabbedObject = hitInfo.collider.gameObject;
-                grabbedObject.GetComponent<Rigidbody2D>().isKinematic = true;
-                //grabbedObject.transform.position = grabPoint.position;
-                //grabbedObject.transform.position = hitInfo.point;
-                offsetDist = Mathf.Max(1.01f, hitInfo.distance); // OMO radius
-                grabVec = (Vector2)grabbedObject.transform.position - (Vector2)hitInfo.point + (Vector2)rayPoint.position + (mousePos-(Vector2)rayPoint.position).normalized * offsetDist - (Vector2)gameObject.transform.position;
-                grabz = grabbedObject.transform.rotation.z;
+                GrabOntoObject(mousePos, hitInfo);
                 //grabbedObject.transform.SetParent(transform);
             }
             //Debug.Log("Touch");
         }
         //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance);       
+    }
+
+    private void UpdateGrabbedObject()
+    {
+        Transform playerTransform = player.transform;
+
+    
+        grabVec = (Vector2)player.transform.position + offset;
+
+        grabbedObjectRb.MovePosition(grabVec);
+
+
+
+            //TODO: Reenable later
+            //grabbedObject.transform.rotation = new Quaternion(grabbedObject.transform.rotation.x, grabbedObject.transform.rotation.y, grabz, grabbedObject.transform.rotation.w);
+    }
+
+    private void ReleaseGrabbedObject()
+    {
+        // grabbedObject.transform.SetParent(null);
+
+        // Reenable gravity
+        grabbedObjectRb.gravityScale = 1;
+
+
+        grabbedObject = null;
+    }
+
+    private void GrabOntoObject(Vector2 mousePos, RaycastHit2D hitInfo)
+    {
+        
+        grabbedObjectRb = grabbedObject.GetComponent<Rigidbody2D>();
+        // Disable gravity
+        grabbedObjectRb.gravityScale = 0;
+
+        Transform playerTransform = player.transform;
+
+
+
+        offset = offsetDist * (Vector2)(grabbedObject.transform.position - player.transform.position).normalized;
+
+        
+        // grabbedObject.transform.SetParent(playerTransform);
+        
+        grabVec = (Vector2)player.transform.position + offset;
+
+
+
+        grabbedObjectRb.MovePosition(grabVec);
+
+        grabbedObject.GetComponent<Rigidbody2D>().freezeRotation = true;
+
+
+        // TODO: re-enable later
+        // grabz = grabbedObject.transform.rotation.z;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log("Grabbed Object Collided");
     }
 }
