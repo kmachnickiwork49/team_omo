@@ -3,11 +3,13 @@ using UnityEngine;
 public class Attractable : MonoBehaviour
 {
     [SerializeField] private bool rotateToCenter = true;
-    [SerializeField] Attractor currentAttractor;
+    [SerializeField] public Attractor currentAttractor;
 
     Transform m_transform;
     Collider2D m_collider;
     Rigidbody2D m_rigidbody;
+
+    public Vector2 attractionDir;
 
     private void Awake()
     {
@@ -27,7 +29,7 @@ public class Attractable : MonoBehaviour
 
     public void Attract(Attractor artgra)
     {
-        Vector2 attractionDir = (Vector2)artgra.circleTransform.position - m_rigidbody.position;
+        /*Vector2 */attractionDir = (Vector2)artgra.circleTransform.position - m_rigidbody.position;
         m_rigidbody.AddForce(attractionDir.normalized * -artgra.gravity * 100 * Time.fixedDeltaTime);
 
         if (currentAttractor == null)
