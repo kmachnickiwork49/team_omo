@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,7 +103,91 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: wildernessbgaudrey_1
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 757
+        width: 425
+        height: 883
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93bac7e0f0a4dd543ac847a78a1eebf2
+      internalID: 2089966053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wildernessbgaudrey_3
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 571
+        width: 932
+        height: 945
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68e8b6ada9c392044bcfe86069ce95a7
+      internalID: -1569734746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wildernessbgaudrey_18
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 92
+        width: 573
+        height: 476
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95aedda127092484698982f9b66e1d13
+      internalID: -260735342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wildernessbgaudrey_20
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 85
+        width: 1071
+        height: 685
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba8c9f58ec28d644f88b402beee12dd7
+      internalID: 1791883284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +198,32 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      wildernessbgaudrey_4: 1539272179
+      wildernessbgaudrey_6: 977591869
+      wildernessbgaudrey_8: 1928937984
+      wildernessbgaudrey_15: -1106512944
+      wildernessbgaudrey_7: 142032148
+      wildernessbgaudrey_17: -1263989280
+      wildernessbgaudrey_0: -1562189428
+      wildernessbgaudrey_22: 391481944
+      wildernessbgaudrey_20: 1791883284
+      wildernessbgaudrey_18: -260735342
+      wildernessbgaudrey_13: 1546266583
+      wildernessbgaudrey_16: 1687822036
+      wildernessbgaudrey_1: 2089966053
+      wildernessbgaudrey_11: 1773433285
+      wildernessbgaudrey_3: -1569734746
+      wildernessbgaudrey_9: 1727392317
+      wildernessbgaudrey_19: 1331778999
+      wildernessbgaudrey_10: 595988884
+      wildernessbgaudrey_23: 2083340325
+      wildernessbgaudrey_12: 1892938114
+      wildernessbgaudrey_2: 1963694519
+      wildernessbgaudrey_21: -199727312
+      wildernessbgaudrey_24: 998037384
+      wildernessbgaudrey_14: -806097762
+      wildernessbgaudrey_5: 507256920
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
