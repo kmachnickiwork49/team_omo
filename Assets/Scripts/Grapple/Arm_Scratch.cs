@@ -20,6 +20,7 @@ public class Arm_Scratch : MonoBehaviour
     [SerializeField] float len;
     [SerializeField] float extendRate;
     [SerializeField] float maxLen;
+    [SerializeField] float minLen;
     Rigidbody2D my_rb;
 
     bool startLaunch;
@@ -39,12 +40,19 @@ public class Arm_Scratch : MonoBehaviour
     private int layerIndex; 
     private Rigidbody2D grabbedObjectRb;
 
+    [SerializeField] ClawCollDetect claw;
+    private GameObject toGrabObject;
+
     // Start is called before the first frame update
     void Start()
     {
         targetLocked = false;
         player = GameObject.Find("Player");
         reticle = GameObject.Find("TargetReticle");
+        
+        // Arm addition, claw object which is essentially a child object
+        claw = GameObject.FindObjectOfType<ClawCollDetect>();
+
         //m_camera = GameObject.Find("Main Camera"); 
         // Init camera in GUI
         extending = RETRACT;
@@ -88,8 +96,16 @@ public class Arm_Scratch : MonoBehaviour
         if (grabbedObject != null && grabbedObject.GetComponent<Collider2D>().IsTouching(player.GetComponent<Collider2D>())) 
             {
                 // Keep grabbed object and player from touching
-                len += 2 * extendRate * Time.deltaTime;
+                len += extendRate * Time.deltaTime;
                 extending = STAYIN;
+                // Due to MovePosition, will incur a collision (experimentally)
+                // Counteract net force? Experiments --> Not viable
+                // Resolve --> Just ignore the collision (which is bad for when OMO releases)
+                /*
+                float counter_angle = Mathf.PI / 180 * (gameObject.transform.rotation.eulerAngles.z);
+                Vector2 counter_recoil = new Vector2(Mathf.Cos(counter_angle), Mathf.Sin(counter_angle)).normalized;
+                player.GetComponent<Rigidbody2D>().AddForce( Mathf.Abs(Mathf.Cos(counter_angle)) * 0.07f * counter_recoil, ForceMode2D.Impulse);
+                */
             }
         else if (extending == EXTEND) {
             if (len < maxLen) {
@@ -99,14 +115,16 @@ public class Arm_Scratch : MonoBehaviour
                 extending = STAYOUT;
             }
         } else if (extending == RETRACT) {
-            if (len > 0) {
+            if (len > minLen) {
                 len -= extendRate * Time.deltaTime;
             } else {
-                len = 0;
+                len = minLen;
                 extending = STAYIN;
             }
         }
         gameObject.transform.localScale = new Vector3(len, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        // Claw just needs to be at the tip of the arm
+        claw.transform.position = new Vector3(player.transform.position.x + len * Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), player.transform.position.y + len * Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), claw.transform.position.z);
 
         if (len > 0.05 && targetLocked) {
             TorqueArm(reticle.transform.position);
@@ -121,7 +139,11 @@ public class Arm_Scratch : MonoBehaviour
         Launch();
 
         // From Matthew's changes
-        RaycastHit2D hitInfo = Physics2D.Raycast(gameObject.transform.position, (Vector2)(reticle.transform.position-gameObject.transform.position), len, LayerMask.GetMask("GrabbableObject"));
+
+        //RaycastHit2D hitInfo = Physics2D.Raycast(gameObject.transform.position, (Vector2)(reticle.transform.position-gameObject.transform.position), len, LayerMask.GetMask("GrabbableObject"));
+        toGrabObject = claw.getPickUp();
+        // Arm change, now just pick up with claw
+
         if (grabbedObject != null) {
             UpdateGrabbedObject();
         } 
@@ -129,17 +151,20 @@ public class Arm_Scratch : MonoBehaviour
         {
             ReleaseGrabbedObject();
             // Do not drop and grab same frame
-        } else if (hitInfo.collider != null && hitInfo.collider.gameObject.layer == layerIndex)
+        //} else if (hitInfo.collider != null && hitInfo.collider.gameObject.layer == layerIndex)
+        } else if (toGrabObject != null && toGrabObject.layer == layerIndex)
         {
-            //if (Input.GetKeyDown(KeyCode.E) && grabbedObject == null) 
-            if (grabbedObject == null) 
+            Debug.Log("trying to grab");
+            if (Input.GetKeyDown(KeyCode.E) && grabbedObject == null) 
+            //if (grabbedObject == null) 
             {
-                // AUTO GRAB instead of pressing E, only press E to release
-                grabbedObject = hitInfo.collider.gameObject;
-                GrabOntoObject(mousePos, hitInfo);
+                //grabbedObject = hitInfo.collider.gameObject;
+                grabbedObject = toGrabObject;
+                //GrabOntoObject(mousePos, hitInfo);
+                GrabOntoObject(); // 
                 //grabbedObject.transform.SetParent(transform);
             }
-            Debug.Log(hitInfo.collider.gameObject.name);
+            //Debug.Log(hitInfo.collider.gameObject.name);
         }
         //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance); 
 
@@ -250,7 +275,10 @@ public class Arm_Scratch : MonoBehaviour
             // If can swing, swing
             // If neither (large object), push off
             //Debug.Log(col.gameObject.name);
-            if (col.gameObject.layer == LayerMask.NameToLayer("GrabbableObject")) {
+            if (grabbedObject == null &&
+                (claw.getPickUp() != null
+                || col.gameObject.layer == LayerMask.NameToLayer("GrabbableObject"))
+                ) {
                 // PICK UP
                 Debug.Log("grab");
                 extending = STAYOUT; // Trigger STAY when starting a grab
@@ -317,11 +345,14 @@ public class Arm_Scratch : MonoBehaviour
         // Reenable gravity
         grabbedObjectRb.gravityScale = 1;
 
+        // Arm change = drop object, reenable collision with player
+        Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), grabbedObject.GetComponent<Collider2D>(), false);
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), grabbedObject.GetComponent<Collider2D>(), false);
 
         grabbedObject = null;
     }
 
-    private void GrabOntoObject(Vector2 mousePos, RaycastHit2D hitInfo)
+    private void GrabOntoObject()
     {
         
         grabbedObjectRb = grabbedObject.GetComponent<Rigidbody2D>();
@@ -339,8 +370,9 @@ public class Arm_Scratch : MonoBehaviour
         
         grabVec = (Vector2)player.transform.position + offset;
 
-
-
+        // Arm change = when pick up object, that specific object cannot physics collide with player or arm
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), grabbedObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), grabbedObject.GetComponent<Collider2D>());
 
         grabbedObjectRb.MovePosition(grabVec);
 
