@@ -14,7 +14,8 @@ public class Arm_Scratch : MonoBehaviour
     private int extending;
     int RETRACT = 0;
     int EXTEND = 1;
-    int STAY = 2; // Should only trigger at max length, if min length, use RETRACT
+    int STAYOUT = 2; // Stay, next move is to retract
+    int STAYIN = 3; // Stay, next move is to extend
 
     [SerializeField] float len;
     [SerializeField] float extendRate;
@@ -27,6 +28,16 @@ public class Arm_Scratch : MonoBehaviour
     //public bool pistonPush;
     // Turn pistonPush into extending
     [SerializeField] float recoil_force = 20f;
+
+    // Grab code taken from GrabObject script
+    private Transform grabPoint;
+    private Vector2 grabVec;
+    private float grabz; 
+    private float offsetDist;
+    private Vector2 offset;
+    private GameObject grabbedObject;
+    private int layerIndex; 
+    private Rigidbody2D grabbedObjectRb;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +60,12 @@ public class Arm_Scratch : MonoBehaviour
         startLaunch = false;
         launch_arm_len = 0;
         launch_angle = 0;
+
+        // CHANGE offsetDist TO CHANGE HOW FAR THE OBJECT WILL BE
+        offsetDist = 2.31f; // OMO radius, oriignally 1.01f
+        layerIndex = LayerMask.NameToLayer("GrabbableObject");
+        grabbedObject = null;
+        grabbedObjectRb = null;
     }
 
     // Update is called once per frame
@@ -65,20 +82,28 @@ public class Arm_Scratch : MonoBehaviour
         if (targetLocked && Input.GetKeyDown(KeyCode.Mouse1)) {
             if (extending == EXTEND) { extending = RETRACT; }
             else if (extending == RETRACT) { extending = EXTEND; } 
-            else { extending = RETRACT; }
+            else if (extending == STAYOUT) { extending = RETRACT; }
+            else { extending = EXTEND; } // STAYIN
         }
-        if (extending == EXTEND) {
+        if (grabbedObject != null && grabbedObject.GetComponent<Collider2D>().IsTouching(player.GetComponent<Collider2D>())) 
+            {
+                // Keep grabbed object and player from touching
+                len += 2 * extendRate * Time.deltaTime;
+                extending = STAYIN;
+            }
+        else if (extending == EXTEND) {
             if (len < maxLen) {
                 len += extendRate * Time.deltaTime;
             } else {
                 len = maxLen;
-                extending = STAY;
+                extending = STAYOUT;
             }
         } else if (extending == RETRACT) {
             if (len > 0) {
                 len -= extendRate * Time.deltaTime;
             } else {
                 len = 0;
+                extending = STAYIN;
             }
         }
         gameObject.transform.localScale = new Vector3(len, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
@@ -94,6 +119,31 @@ public class Arm_Scratch : MonoBehaviour
 
         // From Chris' changes
         Launch();
+
+        // From Matthew's changes
+        RaycastHit2D hitInfo = Physics2D.Raycast(gameObject.transform.position, (Vector2)(reticle.transform.position-gameObject.transform.position), len, LayerMask.GetMask("GrabbableObject"));
+        if (grabbedObject != null) {
+            UpdateGrabbedObject();
+        } 
+        if (Input.GetKeyDown(KeyCode.E) && grabbedObject != null)
+        {
+            ReleaseGrabbedObject();
+            // Do not drop and grab same frame
+        } else if (hitInfo.collider != null && hitInfo.collider.gameObject.layer == layerIndex)
+        {
+            //if (Input.GetKeyDown(KeyCode.E) && grabbedObject == null) 
+            if (grabbedObject == null) 
+            {
+                // AUTO GRAB instead of pressing E, only press E to release
+                grabbedObject = hitInfo.collider.gameObject;
+                GrabOntoObject(mousePos, hitInfo);
+                //grabbedObject.transform.SetParent(transform);
+            }
+            Debug.Log(hitInfo.collider.gameObject.name);
+        }
+        //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance); 
+
+
     }
 
     void RotateArm(Vector3 lookPoint)
@@ -199,15 +249,15 @@ public class Arm_Scratch : MonoBehaviour
             // If can pick up, pick up
             // If can swing, swing
             // If neither (large object), push off
-            Debug.Log(col.gameObject.name);
+            //Debug.Log(col.gameObject.name);
             if (col.gameObject.layer == LayerMask.NameToLayer("GrabbableObject")) {
                 // PICK UP
                 Debug.Log("grab");
-                extending = STAY; // Trigger STAY when starting a grab
+                extending = STAYOUT; // Trigger STAY when starting a grab
             } else if (col.gameObject.tag == "Ground") {
                 // SWING
                 Debug.Log("swing");
-                extending = STAY; // Trigger STAY when starting a swing
+                extending = STAYOUT; // Trigger STAY when starting a swing
             } else { 
                 // PUSH OFF
                 Debug.Log("recoil");
@@ -240,6 +290,65 @@ public class Arm_Scratch : MonoBehaviour
 
             startLaunch = false;
         }
+    }
+
+    private void UpdateGrabbedObject()
+    {
+        Transform playerTransform = player.transform;
+
+        // Update for arm
+        offsetDist = len;
+        offset = offsetDist * (new Vector2(Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI))).normalized;
+
+        grabVec = (Vector2)player.transform.position + offset;
+
+        grabbedObjectRb.MovePosition(grabVec);
+
+
+
+            //TODO: Reenable later
+            //grabbedObject.transform.rotation = new Quaternion(grabbedObject.transform.rotation.x, grabbedObject.transform.rotation.y, grabz, grabbedObject.transform.rotation.w);
+    }
+
+    private void ReleaseGrabbedObject()
+    {
+        // grabbedObject.transform.SetParent(null);
+
+        // Reenable gravity
+        grabbedObjectRb.gravityScale = 1;
+
+
+        grabbedObject = null;
+    }
+
+    private void GrabOntoObject(Vector2 mousePos, RaycastHit2D hitInfo)
+    {
+        
+        grabbedObjectRb = grabbedObject.GetComponent<Rigidbody2D>();
+        // Disable gravity
+        grabbedObjectRb.gravityScale = 0;
+
+        Transform playerTransform = player.transform;
+
+        // Update for arm
+        offsetDist = len;
+        offset = 2 * offsetDist * (new Vector2(Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI))).normalized;
+
+        
+        // grabbedObject.transform.SetParent(playerTransform);
+        
+        grabVec = (Vector2)player.transform.position + offset;
+
+
+
+
+        grabbedObjectRb.MovePosition(grabVec);
+
+        grabbedObject.GetComponent<Rigidbody2D>().freezeRotation = true;
+
+
+        // TODO: re-enable later
+        // grabz = grabbedObject.transform.rotation.z;
     }
 
 }
