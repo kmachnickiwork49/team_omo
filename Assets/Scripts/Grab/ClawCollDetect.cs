@@ -6,11 +6,13 @@ public class ClawCollDetect : MonoBehaviour {
 
     [SerializeField] GameObject arm;
     [SerializeField] GameObject toPickUp;
+    private Vector2 offset;
 
     // Start is called before the first frame update
     void Start()
     {
         arm = GameObject.Find("Arm");
+        offset = new Vector2(0,0);
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -25,6 +27,7 @@ public class ClawCollDetect : MonoBehaviour {
             // PICK UP
             Debug.Log("ccd grab");
             toPickUp = col.gameObject;
+            offset = (Vector2)(toPickUp.transform.position - gameObject.transform.position);
         } 
     }
 
@@ -42,5 +45,9 @@ public class ClawCollDetect : MonoBehaviour {
             return toPickUp;
         }
         return null;
+    }
+
+    public Vector2 getOffset()  {
+        return offset;
     }
 }

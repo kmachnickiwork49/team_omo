@@ -42,6 +42,7 @@ public class Arm_Scratch : MonoBehaviour
 
     [SerializeField] ClawCollDetect claw;
     private GameObject toGrabObject;
+    private Vector2 clawOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -160,6 +161,7 @@ public class Arm_Scratch : MonoBehaviour
             {
                 //grabbedObject = hitInfo.collider.gameObject;
                 grabbedObject = toGrabObject;
+                clawOffset = claw.getOffset();
                 //GrabOntoObject(mousePos, hitInfo);
                 GrabOntoObject(); // 
                 //grabbedObject.transform.SetParent(transform);
@@ -328,7 +330,7 @@ public class Arm_Scratch : MonoBehaviour
         offsetDist = len;
         offset = offsetDist * (new Vector2(Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI))).normalized;
 
-        grabVec = (Vector2)player.transform.position + offset;
+        grabVec = (Vector2)player.transform.position + offset + clawOffset;
 
         grabbedObjectRb.MovePosition(grabVec);
 
@@ -363,12 +365,11 @@ public class Arm_Scratch : MonoBehaviour
 
         // Update for arm
         offsetDist = len;
-        offset = 2 * offsetDist * (new Vector2(Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI))).normalized;
-
+        offset = offsetDist * (new Vector2(Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI))).normalized;
         
         // grabbedObject.transform.SetParent(playerTransform);
         
-        grabVec = (Vector2)player.transform.position + offset;
+        grabVec = (Vector2)player.transform.position + offset + clawOffset;
 
         // Arm change = when pick up object, that specific object cannot physics collide with player or arm
         Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), grabbedObject.GetComponent<Collider2D>());
