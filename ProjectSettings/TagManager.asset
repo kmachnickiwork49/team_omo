@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Hazard
   - Ground
+  - Hook
   layers:
   - Default
   - TransparentFX

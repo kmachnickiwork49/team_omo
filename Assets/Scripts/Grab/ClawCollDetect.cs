@@ -6,6 +6,8 @@ public class ClawCollDetect : MonoBehaviour {
 
     [SerializeField] GameObject arm;
     [SerializeField] GameObject toPickUp;
+    [SerializeField] Vector2 placeToHook;
+    [SerializeField] GameObject objectToHook;
     private Vector2 offset;
 
     // Start is called before the first frame update
@@ -13,6 +15,9 @@ public class ClawCollDetect : MonoBehaviour {
     {
         arm = GameObject.Find("Arm");
         offset = new Vector2(0,0);
+        placeToHook = new Vector2(0,0);
+        objectToHook = null;
+        toPickUp = null;
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -25,19 +30,27 @@ public class ClawCollDetect : MonoBehaviour {
         //Debug.Log(col.gameObject.name);
         if (col.gameObject.layer == LayerMask.NameToLayer("GrabbableObject")) {
             // PICK UP
-            Debug.Log("ccd grab");
+            //Debug.Log("ccd grab");
             toPickUp = col.gameObject;
             offset = (Vector2)(toPickUp.transform.position - gameObject.transform.position);
-        } 
+        } else if (col.gameObject.layer == LayerMask.NameToLayer("Grapplable")) {
+            Debug.Log("ccd hook");
+            objectToHook = col.gameObject;
+            placeToHook = (Vector2)gameObject.transform.position;
+        }
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject == toPickUp) {
-            // PICK UP
+            // DROP (exit)
             Debug.Log("ccd drop");
             toPickUp = null;
         } 
+        if (col.gameObject == objectToHook) {
+            Debug.Log("ccd give up hook");
+            objectToHook = null;
+        }
     }
 
     public GameObject getPickUp() {
@@ -49,5 +62,17 @@ public class ClawCollDetect : MonoBehaviour {
 
     public Vector2 getOffset()  {
         return offset;
+    }
+
+    public Vector2 getPlaceToHookTo() {
+        return placeToHook;
+    }
+
+    public GameObject getObjectToHookTo() {
+        return objectToHook;
+    }
+
+    public void giveUpHook() {
+        objectToHook = null;
     }
 }

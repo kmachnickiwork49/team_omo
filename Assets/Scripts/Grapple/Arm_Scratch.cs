@@ -6,6 +6,7 @@ public class Arm_Scratch : MonoBehaviour
 {
 
     [SerializeField] GameObject player;
+    private Rigidbody2D player_rb;
     [SerializeField] GameObject reticle;
     [SerializeField] Camera m_camera;
     private bool targetLocked;
@@ -44,11 +45,17 @@ public class Arm_Scratch : MonoBehaviour
     private GameObject toGrabObject;
     private Vector2 clawOffset;
 
+    private Vector2 grappleSpot;
+    private bool isGrappling;
+    private Vector2 grappleOmoPos;
+    private GameObject grappleObj;
+
     // Start is called before the first frame update
     void Start()
     {
         targetLocked = false;
         player = GameObject.Find("Player");
+        player_rb = player.GetComponent<Rigidbody2D>();
         reticle = GameObject.Find("TargetReticle");
         
         // Arm addition, claw object which is essentially a child object
@@ -75,6 +82,10 @@ public class Arm_Scratch : MonoBehaviour
         layerIndex = LayerMask.NameToLayer("GrabbableObject");
         grabbedObject = null;
         grabbedObjectRb = null;
+
+        grappleSpot = new Vector2(0,0);
+        isGrappling = false;
+        grappleOmoPos = new Vector2(0,0);
     }
 
     // Update is called once per frame
@@ -127,13 +138,56 @@ public class Arm_Scratch : MonoBehaviour
         // Claw just needs to be at the tip of the arm
         claw.transform.position = new Vector3(player.transform.position.x + len * Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), player.transform.position.y + len * Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), claw.transform.position.z);
 
-        if (len > 0.05 && targetLocked) {
-            TorqueArm(reticle.transform.position);
+        if (!isGrappling) {
+            if (len > minLen && targetLocked) {
+                TorqueArm(reticle.transform.position);
+            } else {
+                // No target lock, retracted
+                RotateArm(reticle.transform.position);
+                // Debug prevent rotate while retracted
+                my_rb.angularVelocity = 0.0f;
+            }
+            // Grappling hook implementation
+            // Cannot grapple while holding onto an object
+            grappleSpot = claw.getPlaceToHookTo();
+            if (grabbedObject == null && claw.getObjectToHookTo() != null) {
+                // Currently can hook onto something
+                // Auto hook
+                isGrappling = true;
+                grappleObj = claw.getObjectToHookTo();
+                grappleOmoPos = new Vector2(grappleSpot.x - len * Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), grappleSpot.y - len * Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI));
+                Debug.Log("start grapple");
+            }
         } else {
-            // No target lock, retracted
-            RotateArm(reticle.transform.position);
-            // Debug prevent rotate while retracted
-            my_rb.angularVelocity = 0.0f;
+            if (Input.GetKeyDown(KeyCode.E) || grappleObj == null) {
+                isGrappling = false;
+                grappleObj = null;
+                claw.giveUpHook();
+                //len -= extendRate * Time.deltaTime;
+            } else {
+                // Currently grappling
+                float rot = transform.localRotation.eulerAngles.z / 180 * Mathf.PI;
+                RotateArm(grappleSpot);
+                if (Input.GetKey(KeyCode.A)) {
+                    Debug.Log("grappleA");
+                    //grappleOmoPos = new Vector2(grappleOmoPos.x - len * Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), grappleOmoPos.y - len * Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI));
+                    player_rb.AddForce(new Vector2(10*Mathf.Cos(rot + Mathf.PI/2.0f),10*Mathf.Sin(rot + Mathf.PI/2.0f)));
+                    grappleOmoPos = player.transform.position;
+                } else if (Input.GetKey(KeyCode.D)) {
+                    player_rb.AddForce(new Vector2(10*Mathf.Cos(rot - Mathf.PI/2.0f),10*Mathf.Sin(rot - Mathf.PI/2.0f)));
+                    grappleOmoPos = player.transform.position;
+                }
+                if (Input.GetKey(KeyCode.Mouse1) && (extending == EXTEND)) {
+                    player_rb.AddForce(new Vector2(20*Mathf.Cos(rot + Mathf.PI), 20*Mathf.Sin(rot + Mathf.PI)));
+                    grappleOmoPos = player.transform.position;
+                } else if (Input.GetKey(KeyCode.Mouse1) && (extending == RETRACT)) {
+                    player_rb.AddForce(new Vector2(20*Mathf.Cos(rot), 20*Mathf.Sin(rot)));
+                    grappleOmoPos = player.transform.position;
+                }
+                len = ((Vector2)(player.transform.position - grappleObj.transform.position)).magnitude;
+                player_rb.MovePosition(grappleOmoPos);
+                //player_rb.AddForce(new Vector2(1.0f * Mathf.Cos(transform.localRotation.eulerAngles.z / 180 * Mathf.PI), 1.0f * Mathf.Sin(transform.localRotation.eulerAngles.z / 180 * Mathf.PI)));
+            }
         }
 
         // From Chris' changes
@@ -169,7 +223,6 @@ public class Arm_Scratch : MonoBehaviour
             //Debug.Log(hitInfo.collider.gameObject.name);
         }
         //Debug.DrawRay(rayPoint.position, (mousePos-(Vector2)rayPoint.position).normalized * rayDistance); 
-
 
     }
 
@@ -284,7 +337,7 @@ public class Arm_Scratch : MonoBehaviour
                 // PICK UP
                 Debug.Log("grab");
                 extending = STAYOUT; // Trigger STAY when starting a grab
-            } else if (col.gameObject.tag == "Ground") {
+            } else if (col.gameObject.tag == "Hook") {
                 // SWING
                 Debug.Log("swing");
                 extending = STAYOUT; // Trigger STAY when starting a swing
