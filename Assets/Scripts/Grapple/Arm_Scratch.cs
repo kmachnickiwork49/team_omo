@@ -10,7 +10,8 @@ public class Arm_Scratch : MonoBehaviour
     [SerializeField] GameObject reticle;
     [SerializeField] Camera m_camera;
     private bool targetLocked;
-    [SerializeField] float rotationSpeed;
+    [SerializeField] float rotationAccel; // Test value 300
+    [SerializeField] float maxRotationSpeed; // Test value 50, 75, 100
 
     private int extending;
     int RETRACT = 0;
@@ -251,10 +252,10 @@ public class Arm_Scratch : MonoBehaviour
         //Debug.Log("target: " + adjust_angle + " z: " + transform.localRotation.eulerAngles.z);
         
         // Only accelerate to a max
-        if (my_rb.angularVelocity > 50.0f) {
-            my_rb.angularVelocity = 50.0f;
-        } else if (my_rb.angularVelocity < -50.0f) {
-            my_rb.angularVelocity = -50.0f;
+        if (my_rb.angularVelocity > maxRotationSpeed) {
+            my_rb.angularVelocity = maxRotationSpeed;
+        } else if (my_rb.angularVelocity < -1 * maxRotationSpeed) {
+            my_rb.angularVelocity = -1 * maxRotationSpeed;
         }
 
 
@@ -262,7 +263,7 @@ public class Arm_Scratch : MonoBehaviour
             && adjust_angle > 270
             && adjust_angle - transform.localRotation.eulerAngles.z > 180) {
             // Negative for quadrant 2 -> 4
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             // Swap directions --> zero velocity
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
@@ -270,59 +271,59 @@ public class Arm_Scratch : MonoBehaviour
             && adjust_angle > 90 && adjust_angle < 180
             && transform.localRotation.eulerAngles.z - adjust_angle > 180) {
             // Positive for quadrant 4 -> 2
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z > 180 && transform.localRotation.eulerAngles.z < 270
             && adjust_angle < 90
             && transform.localRotation.eulerAngles.z - adjust_angle > 180) {
             // Positive for quadrant 3 -> 1
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z < 90
             && adjust_angle > 180 && adjust_angle < 270
             && adjust_angle - transform.localRotation.eulerAngles.z > 180) {
             // Negative for quadrant 1 -> 3
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z > 270 
             && adjust_angle < 90) {
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z < 90 
             && adjust_angle > 270) {
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z > 270 
             && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle >= 2.0F) {
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z > 270
             && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z >= 0 
             && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle >= 2.0F) {
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
         } else if (transform.localRotation.eulerAngles.z >= 0
             && adjust_angle > 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else if (adjust_angle <= 180 && transform.localRotation.eulerAngles.z - adjust_angle > 2.0F) {
-            my_rb.AddTorque(-0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(-0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Min(0, my_rb.angularVelocity);
 
         } else if (adjust_angle <= 180 && transform.localRotation.eulerAngles.z - adjust_angle < -2.0F) {
-            my_rb.AddTorque(0.0005f * rotationSpeed, ForceMode2D.Force);
+            my_rb.AddTorque(0.0005f * rotationAccel, ForceMode2D.Force);
             my_rb.angularVelocity = Mathf.Max(0, my_rb.angularVelocity);
 
         } else {

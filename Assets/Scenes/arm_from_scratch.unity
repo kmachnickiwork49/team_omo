@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 1278922454}
+  player: {fileID: 0}
 --- !u!1 &232279470
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,7 +916,8 @@ MonoBehaviour:
   player: {fileID: 232279470}
   reticle: {fileID: 107041435}
   m_camera: {fileID: 1278922454}
-  rotationSpeed: 150
+  rotationAccel: 300
+  maxRotationSpeed: 100
   len: 0
   extendRate: 25
   maxLen: 5
