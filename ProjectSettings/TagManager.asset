@@ -7,6 +7,7 @@ TagManager:
   - Hazard
   - Ground
   - Teleporter
+  - Hook
   layers:
   - Default
   - TransparentFX
