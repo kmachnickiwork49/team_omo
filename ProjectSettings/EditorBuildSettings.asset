@@ -8,10 +8,4 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/TitleScreen.unity
-    guid: 001e9ccdd626e4cc6ac885ec33f0d387
-  - enabled: 1
-    path: Assets/Scenes/OMOsGallery.unity
-    guid: a5b659cb1a9ce034db9d91a13715c6e8
   m_configObjects: {}
