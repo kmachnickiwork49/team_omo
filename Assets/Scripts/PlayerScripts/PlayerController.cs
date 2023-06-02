@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private CircleCollider2D circle;
     [SerializeField] public bool grounded;
+    [SerializeField] public bool allowJumpFromGrabbableObjects;
     private Animator animator;
     public float health;
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float knockbackX = 5f;
     [SerializeField] float knockbackY = 4f;
 
+    private int grabIndex;
+
     [Header("Camera")]
     Vector3 cameraPos;
     [SerializeField] Camera mainCamera;
@@ -32,9 +35,14 @@ public class PlayerController : MonoBehaviour
         circle = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
         grounded = true;
+        allowJumpFromGrabbableObjects = false; // Change this if you want omo to jump from objects that do not have the ground tag
+        grabIndex = LayerMask.NameToLayer("GrabbableObject");
+
         health = maxHealth;
 
         mainCamera = Camera.main;
+        // set rigidbody gravityscale to 1
+        rb.gravityScale = 1f;
         if (mainCamera)
         {
             cameraPos = mainCamera.transform.position;
@@ -88,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Ground") {
+        if (collision.gameObject.tag == "Ground" || (allowJumpFromGrabbableObjects && collision.gameObject.layer == grabIndex)) {
             Debug.Log("ground");
 
             grounded = true;
@@ -104,11 +112,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision) {
-        if(collision.gameObject.tag == "Ground") {
-            grounded = false;
-        }
-    }
+    // DISABLED THIS SCRIPT TO FIX GROUNDING BUG WITH GRABBABLE OBJECTS
+
+    // void OnCollisionExit2D(Collision2D collision) {
+    //     if(collision.gameObject.tag == "Ground") {
+    //         grounded = false;
+    //     }
+    // }
 /**/
 
 }
