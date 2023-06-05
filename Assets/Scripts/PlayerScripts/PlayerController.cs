@@ -108,8 +108,39 @@ public class PlayerController : MonoBehaviour
             health = health - 3;
             int dir = collision.gameObject.GetComponent<Transform>().position.x > rb.position.x ? -1 : 1;
             rb.velocity = new Vector2(knockbackX*dir, knockbackY);
-            // animator.SetBool("hit", true);
+
+            SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+            SpriteRenderer shell = (GameObject.Find("Shell")).GetComponent<SpriteRenderer>();
+
+            Color newColor = new Color32(255, 66, 66, 255);
+            StartCoroutine(DamageEffectSequence(sr, newColor, 1, 1));
+            StartCoroutine(DamageEffectSequence(shell, newColor, 1, 1));
         }
+    }
+
+    //turn red after damage
+    //credit: https://stackoverflow.com/questions/59958594/is-there-a-way-to-change-sprite-color-temporarily-after-collision-with-c-sharp-i
+    IEnumerator DamageEffectSequence(SpriteRenderer sr, Color dmgColor, float duration, float delay)
+    {
+        // save origin color
+        Color originColor = sr.color;
+
+        // tint the sprite with damage color
+        sr.color = dmgColor;
+
+        // you can delay the animation
+        yield return new WaitForSeconds(delay/7);
+
+        // lerp animation with given duration in seconds
+        for (float t = 0; t < 1.0f; t += Time.deltaTime*10/duration)
+        {
+            sr.color = Color.Lerp(dmgColor, originColor , t);
+
+            yield return null;
+        }
+
+        // restore origin color
+        sr.color = originColor;
     }
 
     // DISABLED THIS SCRIPT TO FIX GROUNDING BUG WITH GRABBABLE OBJECTS
