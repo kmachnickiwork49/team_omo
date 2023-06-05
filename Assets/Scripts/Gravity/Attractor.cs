@@ -13,6 +13,7 @@ public class Attractor : MonoBehaviour
     void Awake()
     {
         circleTransform = GetComponent<Transform>();
+        AttractionLayer = LayerMask.GetMask("Attractable") | LayerMask.GetMask("Player") | LayerMask.GetMask("GrabbableObject");
     }
 
     void Update()
