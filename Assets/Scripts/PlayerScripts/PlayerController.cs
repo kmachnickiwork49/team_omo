@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private CircleCollider2D circle;
     [SerializeField] public bool grounded;
+    [SerializeField] public bool allowJumpFromGrabbableObjects;
     private Animator animator;
     public float health;
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float knockbackX = 5f;
     [SerializeField] float knockbackY = 4f;
 
+    private int grabIndex;
+
     [Header("Camera")]
     Vector3 cameraPos;
     [SerializeField] Camera mainCamera;
@@ -32,9 +35,14 @@ public class PlayerController : MonoBehaviour
         circle = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
         grounded = true;
+        allowJumpFromGrabbableObjects = false; // Change this if you want omo to jump from objects that do not have the ground tag
+        grabIndex = LayerMask.NameToLayer("GrabbableObject");
+
         health = maxHealth;
 
         mainCamera = Camera.main;
+        // set rigidbody gravityscale to 1
+        rb.gravityScale = 1f;
         if (mainCamera)
         {
             cameraPos = mainCamera.transform.position;
@@ -88,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Ground") {
+        if (collision.gameObject.tag == "Ground" || (allowJumpFromGrabbableObjects && collision.gameObject.layer == grabIndex)) {
             Debug.Log("ground");
 
             grounded = true;
@@ -100,15 +108,48 @@ public class PlayerController : MonoBehaviour
             health = health - 3;
             int dir = collision.gameObject.GetComponent<Transform>().position.x > rb.position.x ? -1 : 1;
             rb.velocity = new Vector2(knockbackX*dir, knockbackY);
-            // animator.SetBool("hit", true);
+
+            SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+            SpriteRenderer shell = (GameObject.Find("Shell")).GetComponent<SpriteRenderer>();
+
+            Color newColor = new Color32(255, 66, 66, 255);
+            StartCoroutine(DamageEffectSequence(sr, newColor, 1, 1));
+            StartCoroutine(DamageEffectSequence(shell, newColor, 1, 1));
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision) {
-        if(collision.gameObject.tag == "Ground") {
-            grounded = false;
+    //turn red after damage
+    //credit: https://stackoverflow.com/questions/59958594/is-there-a-way-to-change-sprite-color-temporarily-after-collision-with-c-sharp-i
+    IEnumerator DamageEffectSequence(SpriteRenderer sr, Color dmgColor, float duration, float delay)
+    {
+        // save origin color
+        Color originColor = sr.color;
+
+        // tint the sprite with damage color
+        sr.color = dmgColor;
+
+        // you can delay the animation
+        yield return new WaitForSeconds(delay/7);
+
+        // lerp animation with given duration in seconds
+        for (float t = 0; t < 1.0f; t += Time.deltaTime*10/duration)
+        {
+            sr.color = Color.Lerp(dmgColor, originColor , t);
+
+            yield return null;
         }
+
+        // restore origin color
+        sr.color = originColor;
     }
+
+    // DISABLED THIS SCRIPT TO FIX GROUNDING BUG WITH GRABBABLE OBJECTS
+
+    // void OnCollisionExit2D(Collision2D collision) {
+    //     if(collision.gameObject.tag == "Ground") {
+    //         grounded = false;
+    //     }
+    // }
 /**/
 
 }
