@@ -51,6 +51,8 @@ public class Arm_Scratch : MonoBehaviour
     private Vector2 grappleOmoPos;
     private GameObject grappleObj;
 
+    private PlayerController my_pc;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,11 +89,17 @@ public class Arm_Scratch : MonoBehaviour
         grappleSpot = new Vector2(0,0);
         isGrappling = false;
         grappleOmoPos = new Vector2(0,0);
+        my_pc = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (my_pc != null) {
+            my_pc.setGrapple(isGrappling);
+        }
+
         gameObject.transform.position =  new Vector3(player.transform.position.x, player.transform.position.y, gameObject.transform.position.z);
         Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetKeyDown(KeyCode.Mouse0)) {

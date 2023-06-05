@@ -8,4 +8,28 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 001e9ccdd626e4cc6ac885ec33f0d387
+  - enabled: 1
+    path: Assets/Scenes/V2OMOsGallery.unity
+    guid: f91204f608d977d41b8b3fbceefe8a58
+  - enabled: 1
+    path: Assets/Scenes/V2SandTunnel.unity
+    guid: d4c25975789acc649872246bdd53eacc
+  - enabled: 1
+    path: Assets/Scenes/V2Shipreck.unity
+    guid: c16b6d64284148f4a88400f2db942d0f
+  - enabled: 1
+    path: Assets/Scenes/WildernessLevel.unity
+    guid: 2fa4b0f4cbc9cc74586d557ce3a8e32d
+  - enabled: 1
+    path: Assets/Scenes/Outskirts.unity
+    guid: 13d9645ca4f610945807dbf5d73b689c
+  - enabled: 1
+    path: Assets/Scenes/GrappleCave.unity
+    guid: b96113f3c7dc44b509c73805254e57da
+  - enabled: 1
+    path: Assets/Scenes/Construction.unity
+    guid: 68e6fbf5e78b55c479610816ea7d5468
   m_configObjects: {}

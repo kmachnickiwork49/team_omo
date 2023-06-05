@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     Vector3 cameraPos;
     [SerializeField] Camera mainCamera;
     // Start is called before the first frame update
+
+    [SerializeField] bool inGrapple;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
         {
             cameraPos = mainCamera.transform.position;
         }
+        inGrapple = false;
     }
 
     // Update is called once per frame
@@ -62,7 +65,9 @@ public class PlayerController : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal");
         //rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
         if ((inputX < 0 && -maxSpeed < rb.velocity.x) || (inputX > 0 && rb.velocity.x < maxSpeed)) {
-            rb.AddForce(new Vector2(inputX*speed,0));
+            if (!inGrapple) {
+                rb.AddForce(new Vector2(inputX*speed,0));
+            }
         }
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.W)) && grounded){          
             Jump();
@@ -73,6 +78,10 @@ public class PlayerController : MonoBehaviour
             // No y movement ->
             //mainCamera.transform.position = new Vector3(transform.position.x, cameraPos.y, cameraPos.z);
         }
+    }
+
+    public void setGrapple(bool inpu) {
+        inGrapple = inpu;
     }
 
     public void Jump() {
